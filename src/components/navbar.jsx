@@ -69,9 +69,7 @@ const Navbar = () => {
               <div className="navbar-item">
                
                 <div className="buttons">
-                  <button className="button is-primary">
-                    <strong>Sign up</strong>
-                  </button>
+                
                   <button className="button is-light">
                     Log Out
                   </button>

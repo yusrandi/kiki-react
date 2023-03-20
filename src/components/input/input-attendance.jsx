@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import Layout from '../layout'
 import { read, utils } from 'xlsx';
 import axios from 'axios'
+import { MAIN_URL } from '../utils/constant';
 
 
+const ABSEN_STORE = `${MAIN_URL}absens`;
 
 const InputAttendancePage = () => {
 
@@ -30,6 +32,7 @@ const InputAttendancePage = () => {
                         const rows = utils.sheet_to_json(wb.Sheets[sheets[0]]);
                         setMovies(rows)
                     }
+
                 }
                 reader.readAsArrayBuffer(file);
             }else{
@@ -45,6 +48,7 @@ const InputAttendancePage = () => {
     function getExtension(filename) {
         return filename.split(".").pop();
     }
+    
     const createAbsens = async (e) => {
         e.preventDefault();
         console.log(`bulan ${bulan}`);
@@ -53,25 +57,29 @@ const InputAttendancePage = () => {
                     // <div key={key}>{value}</div>
                     const str = JSON.stringify(movie);
                     const obj = JSON.parse(str);
-                    console.log(`nik ${obj.izint}`);
+                    console.log(`nik ${obj.izinT}`);
     
     
                     try {
-                        var response = await axios.get(`https://kikibackend.albhm.com/absens/${movie.nik}/${bulan}`);
-                        if (!response.data) {
-                            await axios.post("https://kikibackend.albhm.com/absens",{
+                            await axios.post(ABSEN_STORE,{
                             bulan: bulan,
                             userNik: movie.nik,
                             hadir: movie.hadir === '-' ? 0 : movie.hadir,
+                            kerja: movie.kerja === '-' ? 0 : movie.kerja,
                             izin: movie.izin === '-' ? 0 : movie.izin,
-                            izinT: movie.izint === '-' ? 0 : movie.izint,
+                            izinT: movie.izinT === '-' ? 0 : movie.izinT,
                             sakit: movie.sakit === '-' ? 0 : movie.sakit,
                             sakit1: movie.sakit1 === '-' ? 0 : movie.sakit1,
                             alpha: movie.alpha === '-' ? 0 : movie.alpha,
                             cuti: movie.cuti === '-' ? 0 : movie.cuti,
+                            resign: movie.resign === '-' ? 0 : movie.resign,
+                            libur: movie.libur === '-' ? 0 : movie.libur,
+                            setengah: movie.setengah === '-' ? 0 : movie.setengah,
+                            off: movie.off === '-' ? 0 : movie.off,
+                            isoman: movie.isoman === '-' ? 0 : movie.isoman
                             
                             })
-                        }
+                        
                     setAlert(true);
 
                         
@@ -88,27 +96,27 @@ const InputAttendancePage = () => {
 
     console.log(`movies lenghth ${movies.length}`);
     // if (movies.length !== 0){
-    //     movies.map(async (movie) => {
-    //             // <div key={key}>{value}</div>
-    //             console.log(movie.nama);
-    //             const str = JSON.stringify(movie);
-    //             const obj = JSON.parse(str);
-    //             console.log(`nama ${obj.nama}`);
+        // movies.map(async (movie) => {
+        //         // <div key={key}>{value}</div>
+        //         console.log(movie.nama);
+        //         const str = JSON.stringify(movie);
+        //         const obj = JSON.parse(str);
+        //         console.log(`nama ${obj.nama}`);
 
 
-    //             try {
-    //                 // await axios.post("http://localhost:5005/users",{
-    //                 //     nik: movie.nik,
-    //                 //     nama: movie.nama,
-    //                 //     jabatan: movie.jabatan,
-    //                 //     role: 'Driver',
-    //                 // })
+        //         try {
+        //             // await axios.post("http://localhost:5005/users",{
+        //             //     nik: movie.nik,
+        //             //     nama: movie.nama,
+        //             //     jabatan: movie.jabatan,
+        //             //     role: 'Driver',
+        //             // })
         
-    //             } catch (error) {
-    //                 console.log(error);
-    //             }
+        //         } catch (error) {
+        //             console.log(error);
+        //         }
                 
-    //         })
+        //     })
 
     
     // }

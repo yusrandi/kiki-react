@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Layout from '../layout'
 import { read, utils } from 'xlsx';
 import axios from 'axios';
+import { MAIN_URL } from '../utils/constant';
 
 
 
@@ -77,7 +78,8 @@ const InputPegawaiPage = () => {
     
                     try {
                         
-                         await axios.post("https://kikibackend.albhm.com/users",{
+
+                         await axios.post(`${MAIN_URL}users`,{
                             nik: movie.nik,
                             nama: movie.nama,
                             jabatan: movie.jabatan,
